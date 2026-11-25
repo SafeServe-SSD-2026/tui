@@ -1,0 +1,31 @@
+[project]
+name = "safeserve-tui"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "mirkopaonessa",email = "pnsmrk04m28c352r@studenti.unical.it"}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "requests (>=2.34.2,<3.0.0)",
+    "typeguard (>=4.6.1,<5.0.0)",
+    "valid8 (>=5.1.2,<6.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.2.0,<10.0.0)",
+    "pytest-cov (>=7.1.0,<8.0.0)"
+]
+
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=safeserve_tui --cov-report=term-missing"

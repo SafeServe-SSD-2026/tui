@@ -1,0 +1,1 @@
+# client del server: login, logout e una funzione per ogni operazione sulle api
