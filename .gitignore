@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Ambiente virtuale (se Poetry lo crea dentro il progetto)
+.venv/
+
+# Test e copertura
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Editor e sistema operativo
+.vscode/
+.idea/
+.DS_Store
+
+# Segreti e configurazioni locali
+.env

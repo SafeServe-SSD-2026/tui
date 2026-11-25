@@ -1,0 +1,1 @@
+# applicazione vera: login, mostra menu del gestore o del cameriere, legge l'input
