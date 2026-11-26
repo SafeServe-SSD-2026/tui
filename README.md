@@ -1,7 +1,8 @@
 # SafeServe TUI
 
 SafeServe's Python terminal client. The repository currently contains the
-module skeleton; application features have yet to be implemented.
+validated domain values and the remaining module skeleton; restaurant
+workflows have yet to be implemented.
 
 ## Installation
 
@@ -49,7 +50,47 @@ application and development dependencies, and runs `poetry run pytest`.
 Dependency installation or test failures fail the job. No backend is required.
 
 Coverage is reported using the pytest configuration above. A minimum coverage
-threshold is not enforced yet while the application modules are empty.
+threshold is not enforced yet during initial development.
+
+## Domain values
+
+`domain.py` validates values when they are constructed:
+
+| Type | Stored value | Accepted values |
+| --- | --- | --- |
+| `Price` | `cents` | Integer cents from 1 to 99,999 |
+| `Quantity` | `value` | Integer from 1 to 50 |
+| `TableNumber` | `value` | Integer from 1 to 99 |
+| `SeatCount` | `value` | Integer from 1 to 20 |
+| `Category` | `value` | One of the six fixed category strings |
+
+Numeric values are frozen dataclasses. They use explicit `typeguard` checks
+and `valid8` range validation in `__post_init__`; validation does not depend
+on import hooks or assertions. Boolean values are explicitly rejected.
+Wrong numeric types raise `TypeError`, and out-of-range integers raise
+`ValueError`. Strings, floats, and decimal values are not converted or rounded.
+
+`Category` is an enum with English member names and the documented values
+`ANTIPASTO`, `PRIMO`, `SECONDO`, `CONTORNO`, `DOLCE`, and `BIBITA`.
+Unknown values raise `ValueError`; case and whitespace are not normalized.
+
+```python
+from safeserve_tui.domain import Category, Price, Quantity, SeatCount, TableNumber
+
+price = Price(850)
+quantity = Quantity(2)
+table = TableNumber(3)
+seats = SeatCount(4)
+category = Category("PRIMO")
+
+assert price.cents == 850
+assert category is Category.FIRST_COURSE
+```
+
+The price limit applies to a dish's unit price, not to an order total. Totals
+and rules involving current availability or existing orders belong to the
+backend. These values perform no HTTP calls and maintain no simulated data.
+Dish-name validation is deferred until the allowed characters are specified.
 
 ## Structure
 
@@ -67,5 +108,3 @@ tests/
 
 An interactive application is not available yet. Tests at this stage require
 no server, database, credentials, or changes to the other repositories.
-Development instructions are in `../AGENTS.md`, in the shared parent directory
-of the three repositories.
