@@ -26,9 +26,12 @@ for `safeserve_tui`, reporting uncovered lines. The final requirement is
 coverage strictly greater than 90%; a percentage reported for empty modules
 does not demonstrate project completion.
 
-The first test runs in a separate process and checks that importing modules
+The import test runs in a separate process and checks that importing modules
 does not read input, write to the terminal, or make HTTP requests through
-requests. It characterizes the existing module skeleton.
+`requests`.
+
+Menu tests cover validation, rendering, action selection, immutability, and
+builder reuse.
 
 Shared fixtures in `tests/conftest.py`:
 
@@ -75,6 +78,17 @@ The builder is reusable: `build()` does not clear its entries, and later
 additions do not change menus that have already been built. Parsing input,
 application navigation, and backend calls remain outside this module.
 
+## Continuous integration
+
+GitHub Actions runs `.github/workflows/ci.yml` when a pull request is opened
+or updated, on pushes to `main`, and on manual dispatch. The job sets up
+Python 3.14 and Poetry 2.5.2, validates the lockfile, installs the locked
+application and development dependencies, and runs `poetry run pytest`.
+Dependency installation or test failures fail the job. No backend is required.
+
+Coverage is reported using the pytest configuration above. A minimum coverage
+threshold is not enforced yet during initial development.
+
 ## Structure
 
 ```text
@@ -92,5 +106,3 @@ tests/
 
 An interactive application is not available yet. Tests at this stage require
 no server, database, credentials, or changes to the other repositories.
-Development instructions are in `../AGENTS.md`, in the shared parent directory
-of the three repositories.
