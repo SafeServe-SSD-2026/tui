@@ -1,1 +1,1 @@
-# domain primitives e entità
+# Domain primitives and entities.

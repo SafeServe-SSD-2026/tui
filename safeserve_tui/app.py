@@ -1,1 +1,1 @@
-# applicazione vera: login, mostra menu del gestore o del cameriere, legge l'input
+# Application flow: login, role-based menus, and user input.

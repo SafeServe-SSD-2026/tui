@@ -1,1 +1,1 @@
-# avvia l'app
+# Application entry point.
