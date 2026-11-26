@@ -1,7 +1,8 @@
 # SafeServe TUI
 
 SafeServe's Python terminal client. The repository currently contains the
-module skeleton; application features have yet to be implemented.
+reusable menu engine and the remaining module skeleton; restaurant features
+have yet to be implemented.
 
 ## Installation
 
@@ -40,6 +41,40 @@ Shared fixtures in `tests/conftest.py`:
 Develop new behavior using Red → Green → Refactor, checking observable results
 and error cases. Replace HTTP calls in application tests with fakes or mocks.
 
+## Reusable menus
+
+`menu.py` provides `MenuHeader`, `MenuEntry`, `Menu`, and `MenuBuilder`.
+Headers and labels must be nonblank strings; actions must be callable without
+arguments. Menu configuration is immutable, and entry lists are copied to
+tuples. Actions themselves may update application state when selected.
+
+```python
+from safeserve_tui.menu import MenuBuilder, MenuHeader
+
+
+def show_dishes():
+    print("No dishes available.")
+
+
+menu = (
+    MenuBuilder(MenuHeader("Main menu"))
+    .with_entry("List dishes", show_dishes)
+    .build()
+)
+print(menu.render(), end="")
+menu.select(0)
+```
+
+Choices start at zero. `render()` returns text without writing to the terminal;
+`select()` accepts an integer index and invokes only the selected action.
+Invalid types raise `TypeError`, and blank values, empty menus, or out-of-range
+choices raise `ValueError`. Boolean indices are rejected. Action exceptions
+propagate to the caller for application-level handling.
+
+The builder is reusable: `build()` does not clear its entries, and later
+additions do not change menus that have already been built. Parsing input,
+application navigation, and backend calls remain outside this module.
+
 ## Structure
 
 ```text
@@ -52,6 +87,7 @@ safeserve_tui/
 tests/
   conftest.py  # shared fixtures
   test_bootstrap.py
+  test_menu.py
 ```
 
 An interactive application is not available yet. Tests at this stage require
