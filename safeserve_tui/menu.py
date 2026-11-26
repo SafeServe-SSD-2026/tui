@@ -1,1 +1,1 @@
-# classi generiche per costruire il menu da terminale
+# Reusable classes for building terminal menus.
