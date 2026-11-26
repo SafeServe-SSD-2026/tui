@@ -40,6 +40,17 @@ Shared fixtures in `tests/conftest.py`:
 Develop new behavior using Red → Green → Refactor, checking observable results
 and error cases. Replace HTTP calls in application tests with fakes or mocks.
 
+## Continuous integration
+
+GitHub Actions runs `.github/workflows/ci.yml` when a pull request is opened
+or updated, on pushes to `main`, and on manual dispatch. The job sets up
+Python 3.14 and Poetry 2.5.2, validates the lockfile, installs the locked
+application and development dependencies, and runs `poetry run pytest`.
+Dependency installation or test failures fail the job. No backend is required.
+
+Coverage is reported using the pytest configuration above. A minimum coverage
+threshold is not enforced yet while the application modules are empty.
+
 ## Structure
 
 ```text
